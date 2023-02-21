@@ -15,35 +15,60 @@ function main(workbook: ExcelScript.Workbook) {
         });
     });
 
-    // add converted values to array.
+    // Initialize array to add converted values to.
+    let convertedValuesArr: Array<string>;
+    convertedValuesArr = [];
 
-
-    // convert the values.
-    for (let i = 0; i < timeInSecondsArr.length; i++) {
-        let timeInSeconds = timeInSecondsArr[i];
-        // Get the value for the ss in h:mm:ss
-        function getSeconds() {
-            let seconds = Math.floor(timeInSeconds % 60);
-            return seconds;
+    function convertValues() {
+        let result = "";
+        
+        // convert the values.
+        for (let i = 0; i < timeInSecondsArr.length; i++) {
+            let timeInSeconds = timeInSecondsArr[i];
+            let rightCell = range.getOffsetRange(0, 1);
+            // Get the value for the ss in h:mm:ss
+            function getSeconds() {
+                let seconds = Math.floor(timeInSeconds % 60);
+                return seconds;
+            }
+            // Get the value for the mm in h:mm:ss
+            function getMinutes() {
+                let m = Math.floor(timeInSeconds / 60);
+                let minutes = m % 60;
+                return minutes;
+            }
+            // Get the value for h in h:mm:ss
+            function getHours() {
+                let h = Math.floor(timeInSeconds / 60);
+                let hours = Math.floor(h / 60);
+                return hours;
+            }
+            result = (`${getHours()}:${getMinutes()}:${getSeconds()}`);
+            convertedValuesArr.push(result); 
         }
-        // Get the value for the mm in h:mm:ss
-        function getMinutes() {
-            let m = Math.floor(timeInSeconds / 60);
-            let minutes = m % 60;
-            return minutes;
-        }
-        // Get the value for h in h:mm:ss
-        function getHours() {
-            let h = Math.floor(timeInSeconds / 60);
-            let hours = Math.floor(h / 60);
-            return hours;
-        }
+        return result;
     }
-    let result = (`${getHours()}:${getMinutes()}:${getSeconds()}`);
-    console.log(result);
-    return result;
-}
 
-// Set the new value to the adjacent cell.
-// let rightCell = range.getOffsetRange(0, 1);
-// rightCell.setValue(convertValues());
+    convertValues();
+
+    let rightCells = range.getOffsetRange(0, 1);
+    let newRangeAddress = rightCells.getAddress();
+
+    console.log(newRangeAddress);
+
+    // for(let i = 0; i < convertedValuesArr.length; i++){
+    //     rightCells.setValue(convertedValuesArr[i]);
+    // }
+    
+    // function writeValue(str: string) {
+    //     rightCell.setValue(str);
+    // }
+    // convertedValuesArr.forEach((columnItem, columnIndex) => {
+    //         console.log(columnIndex);
+    //         newValue = convertedValuesArr[columnIndex];
+    //         // rightCell.setValue(newValue);
+    //         console.log(newValue);
+    //     });
+    //  rightCell.setValue(newValue[i]);   
+    
+}
