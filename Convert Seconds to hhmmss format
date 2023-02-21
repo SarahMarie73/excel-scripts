@@ -1,0 +1,31 @@
+function main(workbook: ExcelScript.Workbook) {
+    //Get the currently active cell in the workbook.
+    let activeCell = workbook.getActiveCell();
+  
+    //Get the that cell's value
+    let timeInSeconds = activeCell.getValue();
+  
+    // Get the value for the ss in h:mm:ss
+    function getSeconds() {
+      let seconds = Math.floor(Number(timeInSeconds) % 60);
+      return seconds;
+    }
+    // Get the value for the mm in h:mm:ss
+    function getMinutes() {
+      let m = Math.floor(Number(timeInSeconds) / 60);
+      let minutes = m % 60;
+      return minutes;
+    }
+    // Get the value for h in h:mm:ss
+    function getHours() {
+      let h = Math.floor(Number(timeInSeconds) / 60);
+      let hours = Math.floor(Number(h) / 60);
+      return hours;
+    }
+    let hh = getHours();
+    let mm = getMinutes();
+    let ss = getSeconds();
+    // Set the new value to the adjacent cell.
+    let rightCell = activeCell.getOffsetRange(0, 1);
+    rightCell.setValue(`${hh}:${mm}:${ss}`)
+  }
