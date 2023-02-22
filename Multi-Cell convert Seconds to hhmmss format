@@ -16,8 +16,8 @@ function main(workbook: ExcelScript.Workbook) {
     });
 
     // Set the output range of cells.
-    let rightCells = range.getOffsetRange(0, 1);
-    let cellOutputs = rightCells.getValues();
+    // let rightCells = range.getOffsetRange(0, 1);
+    
 
     // Initialize array to add converted values to.
     let convertedValuesArr: Array<string>;
@@ -55,20 +55,20 @@ function main(workbook: ExcelScript.Workbook) {
 
     convertValues();
 
-    let newValues = "";
-
-    cellOutputs.forEach((columnItem, columnIndex) => {
-        cellOutputs[columnIndex].forEach((rowItem, rowIndex) => {
-            convertedValuesArr.push(rowItem as string);
-            console.log(cellOutputs);
-            console.log(convertedValuesArr);
-        });
-    });
-    
-
-
-    // for (let i = 0; i < convertedValuesArr.length; i++) {
-    //     newValues = convertedValuesArr[i];
-    //     rightCells.setValues(newValues);
-    //     console.log(newValues);
-    // } 
+    let newValue = "";
+    let rightCells = range.getCell(0, 1);
+    let rightCell = rightCells.getValues();
+    console.log(typeof(rightCell));
+    console.log(rightCell);
+    // let cellOutputs = rightCells.getValues();
+    // newValues = convertedValuesArr.push();
+    for (let i = 0; i < convertedValuesArr.length; i++) {
+        newValue = convertedValuesArr[i]; 
+        rightCell.forEach((columnItem, columnIndex) => {
+            rightCell[0].forEach((rowItem, rowIndex) => {
+                rowItem = newValue; 
+            });
+        }); 
+    } 
+    console.log(newValue);
+}
