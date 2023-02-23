@@ -2,7 +2,7 @@ function main(workbook: ExcelScript.Workbook) {
     // Get the currently highlighted range in the workbook.
     let range = workbook.getSelectedRange();
     let rangeAddress = range.getAddress();
-    
+
     // Get the that range's value
     let cellInputs = range.getValues();
     let timeInSecondsArr: Array<number>;
@@ -15,17 +15,13 @@ function main(workbook: ExcelScript.Workbook) {
         });
     });
 
-    // Set the output range of cells.
-    // let rightCells = range.getOffsetRange(0, 1);
-    
-
     // Initialize array to add converted values to.
     let convertedValuesArr: Array<string>;
     convertedValuesArr = [];
 
     function convertValues() {
         let result = "";
-        
+
         // convert the values.
         for (let i = 0; i < timeInSecondsArr.length; i++) {
             let timeInSeconds = timeInSecondsArr[i];
@@ -48,27 +44,17 @@ function main(workbook: ExcelScript.Workbook) {
                 return hours;
             }
             result = (`${getHours()}:${getMinutes()}:${getSeconds()}`);
-            convertedValuesArr.push(result); 
+            convertedValuesArr.push(result);
         }
         return result;
     }
 
     convertValues();
 
-    let newValue = "";
-    let rightCells = range.getCell(0, 1);
-    let rightCell = rightCells.getValues();
-    console.log(typeof(rightCell));
-    console.log(rightCell);
-    // let cellOutputs = rightCells.getValues();
-    // newValues = convertedValuesArr.push();
+    let rightCells = range.getOffsetRange(0, 1);
+
     for (let i = 0; i < convertedValuesArr.length; i++) {
-        newValue = convertedValuesArr[i]; 
-        rightCell.forEach((columnItem, columnIndex) => {
-            rightCell[0].forEach((rowItem, rowIndex) => {
-                rowItem = newValue; 
-            });
-        }); 
-    } 
-    console.log(newValue);
+        rightCells.getCell(i,0).setValue(convertedValuesArr[i]);
+    }
+
 }
