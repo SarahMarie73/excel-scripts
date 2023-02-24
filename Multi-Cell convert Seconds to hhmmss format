@@ -19,35 +19,18 @@ function main(workbook: ExcelScript.Workbook) {
     let convertedValuesArr: Array<string>;
     convertedValuesArr = [];
 
-    function convertValues() {
-        let result = "";
-
-        // convert the values.
-        for (let i = 0; i < timeInSecondsArr.length; i++) {
-            let timeInSeconds = timeInSecondsArr[i];
-            let rightCell = range.getOffsetRange(0, 1);
-            // Get the value for the ss in h:mm:ss
-            function getSeconds() {
-                let seconds = Math.floor(timeInSeconds % 60);
-                return seconds;
-            }
-            // Get the value for the mm in h:mm:ss
-            function getMinutes() {
-                let m = Math.floor(timeInSeconds / 60);
-                let minutes = m % 60;
-                return minutes;
-            }
-            // Get the value for h in h:mm:ss
-            function getHours() {
-                let h = Math.floor(timeInSeconds / 60);
-                let hours = Math.floor(h / 60);
-                return hours;
-            }
-            result = (`${getHours()}:${getMinutes()}:${getSeconds()}`);
-            convertedValuesArr.push(result);
-        }
-        return result;
+  function convertValues() {
+    let result = "";
+    for (let i = 0; i < timeInSecondsArr.length; i++) {
+      let timeInSeconds = timeInSecondsArr[i];
+      let seconds = Math.floor(timeInSeconds % 60);
+      let minutes = Math.floor(timeInSeconds / 60) % 60;
+      let hours = Math.floor(timeInSeconds / 3600);
+      result = `${hours}:${minutes}:${seconds}`;
+      convertedValuesArr.push(result);
     }
+    return result;
+  }
 
     convertValues();
 
